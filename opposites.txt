@@ -1,0 +1,437 @@
+about,exactly
+above,below
+absence,presence
+abundance,lack
+accidental,intentional
+active,lazy
+adult,child
+advanced,elementary
+affirmative,negative
+afraid,brave
+after,before
+against,for
+alike,different
+alive,dead
+all,none
+already,not yet
+always,never
+ancient,modern
+ancestor,descendant
+amateur,professional
+ancestor,descendant
+angel,devil
+animal,human
+answer,question
+antonym,synonym
+apart,together
+approximately,exactly
+arrival,departure
+artificial,natural
+asleep,awake
+attack,defence, protection
+attic,cellar
+autumn,spring
+awake,asleep
+awful,delicious, nice, pleasant
+background,foreground
+backward,forward
+bad,good
+beauty,ugliness
+before,after
+beginning,end, ending
+below,above
+best,worst
+better,worse
+beautiful,ugly
+big,small, little
+birth,death
+bitter,sweet
+black,white
+blunt,sharp
+body,soul
+boring,exciting, interesting
+bottom,top
+boy,girl
+brave,cowardly, afraid
+broad,narrow
+brother,sister
+busy,lazy
+calm,excited
+careful,careless
+careless,careful
+ceiling,floor
+cellar,attic
+centre,outskirts, suburb
+certainly,probably
+changeable,constant
+cheap,expensive
+child,adult
+children,parents
+clean,dirty
+clear,cloudy
+clever,stupid
+closed,open
+cloudy,clear, sunny, bright
+comedy,drama, tragedy
+complicated,simple
+compliment,insult
+compulsory,voluntary
+consonant,vowel
+constant,changeable
+construction,destruction
+cool,warm
+correct,false, wrong
+courage,fear
+courageous,cowardly
+cowardly,brave, courageous
+cruel,human, kind
+danger,security, safety
+dangerous,safe
+dark,light
+daughter,son
+dawn,dusk
+day,night
+dead,alive
+death,birth, life
+deep,shallow
+defeat,victory
+defence,attack
+delicious,awful
+departure,arrival
+desperate,hopeful
+destruction,construction
+devil,angel
+dictatorship,republic
+different,alike, equal, same
+difficult,easy
+dirty,clean
+disease,health
+distant,near
+division,unity
+divorce,marriage, wedding
+divorced,married
+domestic,foreign
+down,up
+downstairs,upstairs
+drama,comedy
+dull,interesting
+dusk,dawn
+early,late
+east,west
+easy,difficult, hard
+elementary,advanced
+emigration,immigration
+empty,full
+end,beginning
+ending,beginning
+enemy,friend
+entrance,exit
+equal,different
+even,odd
+evening,morning
+everybody,nobody
+everything,nothing
+exactly,about, approximately
+excited,calm
+exciting,boring
+exit,entrance
+expensive,cheap
+export,import
+exposure,shelter
+extreme,moderate
+failure,success
+false,correct, true
+far,near
+fast,slow
+fat,slim, thin
+fear,courage
+female,male
+few,many
+final,first
+finish,start
+first,final, last
+flat,hilly
+floor,ceiling
+for,against
+foreground,background
+foreign,domestic
+foreigner,native
+forward,backward
+frequently,occasionally
+fresh,old,stale
+friend,enemy
+front,rear
+full,empty
+funny,serious
+future,past, present
+general,particular, special
+generous,mean
+gentle,violent, rough, strict
+gentleman,lady
+giant,tiny, very little, small
+girl,boy
+good,bad
+guest,host
+guilty,innocent
+happiness,sadness
+happy,sad
+handsome,ugly
+hard,easy, soft
+health,disease, illness
+healthy,ill, sick
+heat,cold
+heaven,hell
+heavy,light
+hell,heaven
+here,there
+high,deep
+high,low
+hilly,flat
+hopeful,desperate, hopeless
+hopeless,hopeful
+horizontal,vertical
+host,guest, visitor
+hot,cold
+huge,tiny
+human,animal
+humane,cruel
+humid,dry
+hungry,thirsty
+husband,wife
+ill,healty, well
+immigration,emigration
+import,export
+innocent,guilty
+inside,outside
+insult,compliment
+intelligent,silly, stupid
+intentional,accidental
+interesting,boring, dull
+junior,senior
+kind,cruel
+lack,abundance, plenty
+lady,gentleman
+land,water
+large,small
+last,first
+late,early
+lazy,active, busy
+left,right
+less,more
+life,death
+light,dark
+light,heavy
+liquid,solid
+little,big, large
+little,much
+long,short
+loser,winner
+loud,quiet
+lovely,terrible
+low,high
+major,minor
+male,female
+man,woman
+many,few, some
+marriage,divorce
+married,divorced, single
+master,servant
+maximum,minimum
+mean,generous
+men,women
+mess,order
+midnight,noon
+minimum,maximum
+minor,major
+moderate,extreme
+modern,ancient, old
+monarchy,republic
+moon,sun
+more,less
+morning,evening
+mountain,valley
+much,little
+narrow,broad, wide
+nasty,nice, pleasant
+native,foreigner, stranger
+natural,artificial
+near,distant, far
+negative,affirmative
+nephew,niece
+never,always
+new,ancient, old
+nice,awful, nasty
+niece,nephew
+night,day
+no,yes
+nobody,everybody
+noisy,quiet, silent
+noon,midnight
+normal,strange
+north,south
+nothing,everything
+now,then
+occasionally,frequently
+occupied,vacant
+odd,even
+off,on
+often,seldom, sometimes
+old,modern, new, young
+on,off
+open,closed, shut
+open,closed
+opponent,supporter
+order,mess
+ordinary,special
+other,same
+out,in
+outside,inside
+outskirts,centre
+over,under
+parents,children
+part,whole
+partial,total
+particular,general
+past,future, present
+peace,war
+plenty,lack
+pleasant,awful
+polite,rude
+poor,rich, wealthy
+poverty,wealth
+powerful,weak
+presence,absence
+present,past, future
+pretty,ugly
+private,public
+probably,certainly
+professional,amateur
+protection,attack
+public,private
+pupil,teacher
+question,answer
+quick,slow
+quiet,loud, noisy
+rainy,sunny
+rear,front
+regret,satisfaction
+reply,question
+republic,dictatorship, monarchy
+rich,poor
+right,left
+right,wrong
+rough,gentle
+rough,smooth, soft
+rude,polite
+rural,urban
+sad,happy
+sadness,happiness
+safe,dangerous
+safety,danger
+salt,sugar
+same,different
+satisfaction,regret
+security,danger
+seldom,often
+senior,junior
+serious,funny
+servant,master
+shallow,deep
+sharp,blunt
+shelter,exposure
+short,long, tall
+sick,healthy
+silent,noisy
+silly,intelligent
+simple,complicated
+single,married
+sister,brother
+slim,fat
+slow,fast, quick
+small,big, large, tall
+smooth,rough
+soft,hard, rough
+solid,liquid
+some,many
+sometimes,often
+son,daughter
+soul,body
+sour,sweet
+south,north
+special,general, ordinary
+spring,autumn
+start,finish, end, stop
+strange,normal
+stranger,native
+strict,gentle
+strong,weak
+student,teacher
+stupid,clever, intelligent
+suburb,centre
+success,failure
+sugar,salt
+summer,winter
+sun,moon
+sunny,cloudy, rainy
+supporter,opponent
+sweet,bitter, sour
+synonym,antonym
+tall,small, short
+teacher,pupil, student
+then,now
+terrible,lovely
+there,here
+thick,thin
+thin,thick, fat
+thirsty,hungry
+tight,loose
+tiny,giant, huge
+together,apart
+tomorrow,yesterday
+top,bottom
+total,partial
+town,village
+tragedy,comedy
+true,false
+ugliness,beauty
+ugly,beautiful, handsome, pretty
+under,over
+unity,division
+up,down
+upstairs,downstairs
+urban,rural
+useful,useless
+useless,useful
+vacant,occupied
+valley,mountain
+vertical,horizontal
+victory,defeat
+village,town
+violent,gentle
+visitor,host
+voluntary,compulsory
+vowel,consonant
+war,peace
+warm,cool
+water,land
+weak,powerful, strong
+wealth,poverty
+wealthy,poor
+wedding,divorce
+well,ill
+west,east
+wet,dry
+white,black
+whole,part
+wide,narrow
+wife,husband
+winner,loser
+winter,summer
+woman,man
+women,men
+worse,better
+worst,best
+wrong,correct, right
+yes,no
+yesterday,tomorrow
+young,old
