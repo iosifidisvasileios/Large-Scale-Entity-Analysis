@@ -11,3 +11,27 @@ example:
 
 In order to run the code you must have installed Apache Spark Ecosystem.
 
+Datasets must be indexed monthly on your File System i.e 2010-01, 2010-02.
+
+Programm has 3 options:
+
+1) First option will calculate the popularity, attitude, sentimentality and controversiality
+2) Second option will calculate the connectedness between 2 entities
+3) Third otpion will calculate the Top-K Network, Eplus and Eminus Top-K Networks.
+
+The arguments for each option are listed below:
+
+1) date_range_1 date_range_2 option entity_name_1 delta_threshold percentageForControversiality directory_of_dataset
+
+ie.
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10 2015-10 1 Alexis_Tsipras 10 0.1 TPDL_Dataset/
+
+2) date_range_1 date_range_2 option entity_name_1 entity_name_2 directory_of_dataset
+
+ie.
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10 2015-10 2 Alexis_Tsipras Greek_withdrawal_from_the_eurozone TPDL_Dataset/
+
+3) date_range_1 date_range_2 option entity_name_1 delta_threshold top_k
+
+ie.
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2016-06 2016-06 3 Barack_Obama 2 10
