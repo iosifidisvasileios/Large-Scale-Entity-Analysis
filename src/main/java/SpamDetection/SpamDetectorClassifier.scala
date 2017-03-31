@@ -3,7 +3,6 @@ package SpamDetection
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import org.apache.log4j.Logger
 import org.apache.spark.mllib.classification.NaiveBayes
 import org.apache.spark.mllib.feature.HashingTF
 import org.apache.spark.mllib.regression.LabeledPoint
@@ -19,13 +18,13 @@ object SpamDetectorClassifier {
 
   def main(args: Array[String]) {
     val from = new DateTime().withYear(2013).withMonthOfYear(1).withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0)
-    val to = new DateTime().withYear(2017).withMonthOfYear(3).withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0)
+    val to = new DateTime().withYear(2017).withMonthOfYear(2).withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0)
 
     def conf = new SparkConf().setAppName(SpamDetectorClassifier.getClass.getName)
     val processingOfRow: ProcessingOfRow = new ProcessingOfRow
     val sc = new SparkContext(conf)
     val sdf: SimpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
-    val sdf_2: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    val sdf_2: SimpleDateFormat = new SimpleDateFormat("yyyy-MM")
     println("Hello, world!")
     sc.setLogLevel("ERROR")
 
@@ -93,9 +92,9 @@ object SpamDetectorClassifier {
 
     val model = NaiveBayes.train(spamTraining , lambda = 1.0,  modelType = "multinomial")
 
-    println("spam counts: " + unlabeledMapped.filter{item =>
-      model.predict(item._2) == 0
-    }.count())
+//    println("spam counts: " + unlabeledMapped.filter{item =>
+//      model.predict(item._2) == 0
+//    }.count())
 
     val labeledHam = unlabeledMapped.filter{item =>
           model.predict(item._2) == 1
@@ -107,7 +106,7 @@ object SpamDetectorClassifier {
         labeledHam.saveAsTextFile("labeled_Ham")
     */
 
-    dateRange(from, to, new Period().withDays(1)).toList.foreach { step =>
+    dateRange(from, to, new Period().withMonths(1)).toList.foreach { step =>
       println(step)
       val unlabeledMapped = labeledHam.filter{ line =>
         val parts = line.split('\t')
@@ -117,7 +116,7 @@ object SpamDetectorClassifier {
 
           val date: DateTime = new DateTime(temp)
 
-          step.getMonthOfYear.equals(date.getMonthOfYear) && step.getYear.equals(date.getYear) && step.getDayOfMonth.equals(date.getDayOfMonth)
+          step.getMonthOfYear.equals(date.getMonthOfYear) && step.getYear.equals(date.getYear)
 
         } catch {
           case e: java.lang.NumberFormatException => println(line, e)
@@ -129,8 +128,6 @@ object SpamDetectorClassifier {
         unlabeledMapped.saveAsTextFile("Indexed/" + sdf_2.format(step.toDate))
       }
     }
-
-
 
   }
 

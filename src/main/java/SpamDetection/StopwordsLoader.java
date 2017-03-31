@@ -22,6 +22,7 @@ public class StopwordsLoader {
     public StopwordsLoader() {
         FileInputStream fstream = null;
         try {
+//            Path pt=new Path("stopwords.txt");
             Path pt=new Path("hdfs://nameservice1/user/iosifidis/stopwords.txt");
 
 //            Path pt=new Path("stopwords.txt");

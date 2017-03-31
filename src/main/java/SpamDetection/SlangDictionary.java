@@ -19,6 +19,7 @@ public class SlangDictionary {
     public SlangDictionary() {
         FileInputStream fstream = null;
         try {
+//            Path pt=new Path("slang_dictionary.txt");
             Path pt=new Path("hdfs://nameservice1/user/iosifidis/slang_dictionary.txt");
 
 //            Path pt=new Path("slang_dictionary.txt");

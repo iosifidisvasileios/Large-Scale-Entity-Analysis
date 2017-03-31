@@ -27,6 +27,10 @@ public class ProcessingOfRow implements java.io.Serializable{
     }
 
 
+    public boolean isStopword(String word) throws  IOException{
+        return stopwords.contains(word.toLowerCase());
+    }
+
     public String removeStopwords(String preprocessed) throws IOException {
         String[] s = preprocessed.split(" ");
         String temp = "";

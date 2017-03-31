@@ -22,6 +22,7 @@ public class VerbLoader {
     public VerbLoader() {
         FileInputStream fstream = null;
         try {
+//            Path pt=new Path("verbs.txt");
             Path pt=new Path("hdfs://nameservice1/user/iosifidis/verbs.txt");
 
 //            Path pt=new Path("verbs.txt");

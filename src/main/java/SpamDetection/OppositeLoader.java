@@ -22,6 +22,7 @@ public class OppositeLoader {
     public OppositeLoader() {
         FileInputStream fstream = null;
         try {
+//            Path pt=new Path("opposites.txt");
             Path pt=new Path("hdfs://nameservice1/user/iosifidis/opposites.txt");
 
 //            Path pt=new Path("opposites.txt");
