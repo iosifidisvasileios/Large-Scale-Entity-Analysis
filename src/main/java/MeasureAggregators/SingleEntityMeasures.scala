@@ -62,8 +62,8 @@ object SingleEntityMeasures {
       x.split("\t")(4).split(" ")(0).toInt + x.split("\t")(4).split(" ")(1).toInt <= -thresholdDelta
     }.count().toDouble
 
-    if (((posCnt / entityCount) >= percentageForControversiality) && ((negCnt / entityCount) >= percentageForControversiality)) {
-      min(posCnt, negCnt) / max(posCnt, negCnt)
+//    if (((posCnt + negCnt)/ entityCount) >= percentageForControversiality) && ((negCnt / entityCount) >= percentageForControversiality)) {
+      min(posCnt, negCnt) / max(posCnt, negCnt) * ((posCnt + negCnt)/entityCount)
     }else{
       0.0
     }
@@ -224,7 +224,6 @@ object SingleEntityMeasures {
         println("Give second entity for search (exactly as it is written in Wikipedia):")
         val e2 = args(4).toString
         println(e2)
-
         //        val e2 = Console.readLine
 
         val indexedRdd = sc.textFile(listConcat)
