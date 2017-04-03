@@ -28,45 +28,41 @@ object SingleEntityMeasures {
     CONe
   }
 
-    /*
-    def flatten(ls: List[Any]): List[Any] = ls flatMap {
-      case i: List[_] => flatten(i)
-      case e => List(e)
-    }
+  /*
+  def flatten(ls: List[Any]): List[Any] = ls flatMap {
+    case i: List[_] => flatten(i)
+    case e => List(e)
+  }
 
 
-   def calculateCONh(e1HashTags: RDD[String], e2HashTags: RDD[String]) : Double = {
-       val e1HashTagsCnt = e1HashTags.distinct().count.toDouble
-       //    val e2HashTagsCnt = e2HashTags.distinct().count.toDouble
-       val e1ANDe2_HashTags = e2HashTags.distinct().intersection(e1HashTags.distinct()).count.toDouble
-       val CONh = e1ANDe2_HashTags/(e1HashTagsCnt - e1ANDe2_HashTags)
+ def calculateCONh(e1HashTags: RDD[String], e2HashTags: RDD[String]) : Double = {
+     val e1HashTagsCnt = e1HashTags.distinct().count.toDouble
+     //    val e2HashTagsCnt = e2HashTags.distinct().count.toDouble
+     val e1ANDe2_HashTags = e2HashTags.distinct().intersection(e1HashTags.distinct()).count.toDouble
+     val CONh = e1ANDe2_HashTags/(e1HashTagsCnt - e1ANDe2_HashTags)
 
-       return CONh
-     }
-    def calculateCONm(e1Mensions: RDD[String], e2Mensions: RDD[String]) : Double = {
-       val e1MensionsCnt = e1Mensions.distinct().count.toDouble
-       //    val e2MensionsCnt = e2Mensions.distinct().count.toDouble
-       val e1ANDe2_Mensions = e2Mensions.distinct().intersection(e1Mensions.distinct()).count.toDouble
-       val CONm = e1ANDe2_Mensions/(e1MensionsCnt - e1ANDe2_Mensions)
+     return CONh
+   }
+  def calculateCONm(e1Mensions: RDD[String], e2Mensions: RDD[String]) : Double = {
+     val e1MensionsCnt = e1Mensions.distinct().count.toDouble
+     //    val e2MensionsCnt = e2Mensions.distinct().count.toDouble
+     val e1ANDe2_Mensions = e2Mensions.distinct().intersection(e1Mensions.distinct()).count.toDouble
+     val CONm = e1ANDe2_Mensions/(e1MensionsCnt - e1ANDe2_Mensions)
 
-       return CONm
-     }
-     */
+     return CONm
+   }
+   */
 
-  def controversialityForOne(entitySet: RDD[String], entityCount: Double, thresholdDelta : Double, percentageForControversiality: Double) : Double = {
+  def controversialityForOne(entitySet: RDD[String], entityCount: Double, thresholdDelta : Double) : Double = {
     val posCnt = entitySet.filter { x =>
-      x.split("\t")(4).split(" ")(0).toDouble + x.split("\t")(4).split(" ")(1).toDouble >= thresholdDelta
+      x.split("\t")(4).split(" ")(0).toInt + x.split("\t")(4).split(" ")(1).toInt >= thresholdDelta
     }.count().toDouble
 
     val negCnt = entitySet.filter { x =>
       x.split("\t")(4).split(" ")(0).toInt + x.split("\t")(4).split(" ")(1).toInt <= -thresholdDelta
     }.count().toDouble
 
-//    if (((posCnt + negCnt)/ entityCount) >= percentageForControversiality) && ((negCnt / entityCount) >= percentageForControversiality)) {
-      min(posCnt, negCnt) / max(posCnt, negCnt) * ((posCnt + negCnt)/entityCount)
-    }else{
-      0.0
-    }
+    (min(posCnt, negCnt) / max(posCnt, negCnt)) * ((posCnt + negCnt)/entityCount)
   }
 
   def calculateEplusEminus(tweetSet: RDD[String], entities: RDD[String], entityCooccurred: Double, threshold: Double, topK: Int) : (Array[(String,  Double)], Array[(String, Double)])   = {
@@ -181,7 +177,7 @@ object SingleEntityMeasures {
         println(e1)
 
         val delta = args(4).toDouble
-        val percentageForControversiality = args(5).toDouble
+//        val percentageForControversiality = args(5).toDouble
 
         val indexedRdd = sc.textFile(listConcat)
         val totalTweets = indexedRdd.count().toDouble
@@ -203,7 +199,7 @@ object SingleEntityMeasures {
         val attitude = (attitudePosCnt + attitudeNegCnt)/entityCnt
         val sentimentality = sentimentalityCnt/entityCnt
 
-        val controversiality = controversialityForOne(entitySet, entityCnt, delta, percentageForControversiality)
+        val controversiality = controversialityForOne(entitySet, entityCnt, delta)
 
         val myList = List(
           ("popul_Tweets", populT ),
