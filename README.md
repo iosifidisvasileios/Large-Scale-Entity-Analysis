@@ -1,6 +1,6 @@
 # Large-Scale-Entity-Analysis
 
-This repository was developed for analysing large scale datasets which contains entities.
+This repository was developed for analysing large scale datasets which contain entities.
 
 Dataset must be in this form:
 
@@ -24,14 +24,14 @@ The arguments for each option are listed below:
 1) date_range_1 date_range_2 option entity_name_1 delta_threshold percentageForControversiality directory_of_dataset
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10 2015-10 1 Alexis_Tsipras 10 0.1 TPDL_Dataset/
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 1 Alexis_Tsipras 10 0.1 TPDL_Dataset/
 
 2) date_range_1 date_range_2 option entity_name_1 entity_name_2 directory_of_dataset
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10 2015-10 2 Alexis_Tsipras Greek_withdrawal_from_the_eurozone TPDL_Dataset/
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 2 Alexis_Tsipras Greek_withdrawal_from_the_eurozone TPDL_Dataset/
 
 3) date_range_1 date_range_2 option entity_name_1 delta_threshold top_k
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2016-06 2016-06 3 Barack_Obama 2 10
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 3 Barack_Obama 2 10
