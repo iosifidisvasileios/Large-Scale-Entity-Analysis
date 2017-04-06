@@ -98,6 +98,9 @@ object SingleEntityMeasures {
 
     val processingOfRow: ProcessingOfRow = new ProcessingOfRow
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM")
+    val sdf2: SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    val sdf3: SimpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
+
     def conf = new SparkConf().setAppName(SingleEntityMeasures.getClass.getName)
 
     val sc = new SparkContext(conf)
@@ -106,55 +109,98 @@ object SingleEntityMeasures {
     sc.setLogLevel("ERROR")
     var startingYear = ""
     var startingMonth = ""
+    var startingDay = ""
     var endingYear = ""
     var endingMonth = ""
+    var endingDay = ""
 
     var flagLoop = true
     while (flagLoop) {
-      println("give starting date: \"year-month\". example: 2013-01")
+      println("give starting date: \"year-month\". example: 2013-01-01")
       //      val buffer = Console.readLine
       val buffer = args(0).toString
-      if (buffer.split("-").length == 2) {
+      if (buffer.split("-").length == 3) {
         startingYear = buffer.split("-")(0)
         startingMonth = buffer.split("-")(1)
+        startingDay = buffer.split("-")(2)
+        println(startingYear)
+        println(startingMonth)
+        println(startingDay)
         var flag = false
 
         if (!startingYear.forall(_.isDigit)) {
           println("wrong year")
           flag = true
+
         }
         if (!startingMonth.forall(_.isDigit)) {
           println("wrong month")
           flag = true
+
         }
-        if (!flag) flagLoop = false
+        if (!startingDay.forall(_.isDigit)) {
+          println("wrong day")
+          flag = true
+
+        }
+
+        if (!flag) {
+          flagLoop = false
+        }
+        else{
+          System.exit(1)
+        }
+
+      }else{
+        println("wrong type of date")
+        System.exit(1)
       }
     }
 
     val startDate: Date = sdf.parse(startingYear + "-" + startingMonth)
-
+    val startDateFull: Date = sdf2.parse(startingYear + "-" + startingMonth + "-" + startingDay)
     flagLoop = true
     while (flagLoop) {
-      println("give ending date: \"year-month\". example: 2013-12")
+      println("give ending date: \"year-month\". example: 2013-12-01")
       //      val buffer = Console.readLine
       val buffer = args(1).toString
-      if (buffer.split("-").length == 2) {
+      if (buffer.split("-").length == 3) {
         endingYear = buffer.split("-")(0)
         endingMonth = buffer.split("-")(1)
+        endingDay = buffer.split("-")(2)
         var flag = false
         if (!endingYear.forall(_.isDigit)) {
           println("wrong year")
           flag = true
+
         }
         if (!endingMonth.forall(_.isDigit)) {
           println("wrong month")
           flag = true
+
         }
-        if (!flag) flagLoop = false
+        if (!endingDay.forall(_.isDigit)) {
+          println("wrong day")
+          flag = true
+
+        }
+        if (!flag) {
+          flagLoop = false
+        }
+        else{
+          System.exit(1)
+        }
+
+      }else{
+        println("wrong type of date")
+        System.exit(1)
       }
+
     }
 
     val endDate: Date = sdf.parse(endingYear + "-" + endingMonth)
+    val endDateFull: Date = sdf2.parse(endingYear + "-" + endingMonth + "-" + endingDay)
+
     val myList = dateRange(new DateTime(startDate), new DateTime(endDate), new Period().withMonths(1)).toList.map(_.toDate).map(x => args(argsLen - 1) + sdf.format(x) ).distinct
     val listConcat = myList.mkString(",")
 
@@ -179,7 +225,12 @@ object SingleEntityMeasures {
         val delta = args(4).toDouble
 //        val percentageForControversiality = args(5).toDouble
 
-        val indexedRdd = sc.textFile(listConcat)
+        val indexedRddTemp = sc.textFile(listConcat)
+        val indexedRdd = indexedRddTemp.filter{x=>
+           val temp: Date = sdf3.parse(x.split("\t")(2))
+          temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
+        }.cache
+
         val totalTweets = indexedRdd.count().toDouble
         val totalUserCnt = indexedRdd.map(_.split("\t")(1)).distinct().count().toDouble
         val entitySet = indexedRdd.filter(_.split("\t")(3).contains(e1))
@@ -211,6 +262,7 @@ object SingleEntityMeasures {
         )
 
         sc.parallelize(myList).repartition(1).saveAsTextFile("popularity_" + e1 + "_" + args(0) + "_" + args(1))
+        System.exit(0)
 
       case "2" =>
         println("Give first  entity for search (exactly as it is written in Wikipedia):")
@@ -222,7 +274,12 @@ object SingleEntityMeasures {
         println(e2)
         //        val e2 = Console.readLine
 
-        val indexedRdd = sc.textFile(listConcat)
+        val indexedRddTemp = sc.textFile(listConcat)
+        val indexedRdd = indexedRddTemp.filter{x=>
+          val temp: Date = sdf3.parse(x.split("\t")(2))
+          temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
+        }.cache
+
         val entitySetE1 = indexedRdd.filter(_.split("\t")(3).contains(e1)).cache
         val entitySetE2 = indexedRdd.filter(_.split("\t")(3).contains(e2)).cache
 
@@ -267,7 +324,13 @@ object SingleEntityMeasures {
         val e1 = args(3).toString
         val delta = args(4).toDouble
         val topK = args(5).toInt
-        val indexedRdd = sc.textFile(listConcat).cache()
+
+        val indexedRddTemp = sc.textFile(listConcat)
+        val indexedRdd = indexedRddTemp.filter{x=>
+          val temp: Date = sdf3.parse(x.split("\t")(2))
+          temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
+        }.cache
+
         val tweetSet = indexedRdd.filter(_.split("\t")(3).contains(e1)).cache
 
         val entitySet = tweetSet.map(s => s.split("\t")(3)).flatMap(t => t.split(";"))
