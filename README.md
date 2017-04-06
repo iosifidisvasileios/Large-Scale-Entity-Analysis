@@ -1,6 +1,6 @@
 # Large-Scale-Entity-Analysis
 
-This repository was developed for analysing large scale datasets which contains entities.
+This repository was developed for analysing large scale datasets which contain entities.
 
 Dataset must be in this form:
 
