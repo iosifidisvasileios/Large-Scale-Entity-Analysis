@@ -1,5 +1,8 @@
 # Large-Scale-Entity-Analysis
 
+Social media archives serve as important historical information sources, and thus meaningful analysis and exploration methods are of immense value for historians, sociologists and other interesting parties. In this paper, we propose an entity-centric approach to analyze social media archives and we define measures that allow inspecting how entities are reflected in social media in different time periods and under different aspects (like popularity, attitude, controversiality, and connectedness
+with other entities). A case study using a large Twitter archive of 4 years illustrates the insights that can be gained by such an entity-centric and multi-aspect analysis.
+
 This repository was developed for analysing large scale datasets which contain entities.
 
 Dataset must be in this form:
