@@ -42,7 +42,7 @@ spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-
 ie.
 spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 2 Alexis_Tsipras Greek_withdrawal_from_the_eurozone TPDL_Dataset/
 
-3) date_range_1 date_range_2 3 entity_id top_k directory_of_dataset
+3) date_range_1 date_range_2 3 entity_id delta top_k directory_of_dataset
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 3 Barack_Obama 10 TPDL_Dataset/
+spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 3 Barack_Obama 0.001 10 TPDL_Dataset/
