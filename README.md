@@ -9,12 +9,16 @@ Currently, the library supports the distributed computation of the following mea
 - **entity-to-entity connectedness** (how connected - in terms of co-occurrences - is the entity to another entity)
 - **entity k-network** (top-k strongly connected entities)
 
-Dataset must be in the following tab-seperated format (each line describes information about a short text, e.g., tweet):
+Dataset must be in the following tab-seperated ("\t") format (each line describes information about a short text, e.g., tweet):
 
-ID(long)\tUSER(string)\tPOST_DATE\tENTITIES_IN_TEXT(surface_form:entity_id:confidence_score - separated by ";")\tSENTIMENT_OF_TEXT(pos neg)
+- ID(long)
+- USER(string)
+- POST_DATE (format "EEE MMM dd HH:mm:ss Z yyyy")
+- ENTITIES_IN_TEXT (surface_form:entity_id:confidence_score - separated by ";")
+- SENTIMENT_OF_TEXT(pos neg)
 
 Example:
-01234567891234136	fa2fd3jtga	Mon Jan 28 16:19:29 +0000 2013	tyga:Tyga:-1.2792934088573558;happy birthday:Happy_Birthday_to_You:-1.6150737334466199	2 -1
+01234567891234136 fa2fd3jtga  Mon Jan 28 16:19:29 +0000 2013  tyga:Tyga:-1.2792934088573558;happy birthday:Happy_Birthday_to_You:-1.6150737334466199	2 -1
 
 In order to run the code you must have installed Apache Spark Ecosystem.
 
