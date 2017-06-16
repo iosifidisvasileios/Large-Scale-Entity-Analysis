@@ -95,6 +95,7 @@ object SingleEntityMeasures {
   }
 
   def main(args: Array[String]) {
+//    val t0 = System.nanoTime()
 
     val processingOfRow: ProcessingOfRow = new ProcessingOfRow
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM")
@@ -227,17 +228,36 @@ object SingleEntityMeasures {
         val delta = args(4).toDouble
 //        val percentageForControversiality = args(5).toDouble
 
-        val indexedRddTemp = sc.textFile(listConcat)
-        val indexedRdd = indexedRddTemp.filter{x=>
+//        val indexedRddTemp = sc.textFile(listConcat)
+        val indexedRdd =  sc.textFile(listConcat).filter{x=>
            val temp: Date = sdf3.parse(x.split("\t")(2))
           temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
         }.cache
 
         val totalTweets = indexedRdd.count().toDouble
         val totalUserCnt = indexedRdd.map(_.split("\t")(1)).distinct().count().toDouble
-        val entitySet = indexedRdd.filter(_.split("\t")(3).contains(e1))
+//        val entitySet = indexedRdd.filter(_.split("\t")(3).contains(e1))
+//        println("totalTweets " +totalTweets )
+
+        val entitySet = indexedRdd.filter{ line=>
+          var flag = false
+          val entity = line.split("\t")(3)
+
+          if (!entity.equals("null;")){
+            val eList = entity.split(";")
+            for(name <- eList) {
+              if (name.split(":")(1).equals(e1)){
+                flag = true
+              }
+            }
+          }
+          flag
+        }.cache()
+
+
 
         val entityCnt = entitySet.count().toDouble
+//        println("entityCnt " + entityCnt )
         val entityUserCnt = entitySet.map(_.split("\t")(1)).distinct().count().toDouble
 
         val populT = entityCnt/totalTweets
@@ -264,6 +284,9 @@ object SingleEntityMeasures {
         )
 
         sc.parallelize(myList).repartition(1).saveAsTextFile("popularity_" + e1 + "_" + args(0) + "_" + args(1))
+
+//        println("Elapsed time: " + (System.nanoTime() - t0) + "ns")
+
         sys.exit(0)
 
       case "2" =>
@@ -334,7 +357,25 @@ object SingleEntityMeasures {
           temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
         }.cache
 
-        val tweetSet = indexedRdd.filter(_.split("\t")(3).contains(e1)).cache
+//        val tweetSet = indexedRdd.filter(_.split("\t")(3).contains(e1)).cache
+
+        ////
+        val tweetSet = indexedRdd.filter{ line=>
+          var flag = false
+          val entity = line.split("\t")(3)
+
+          if (!entity.equals("null;")){
+            val eList = entity.split(";")
+            for(name <- eList) {
+              if (name.split(":")(1).equals(e1)){
+                flag = true
+              }
+            }
+          }
+          flag
+        }.cache()
+        ////
+
 
         val entitySet = tweetSet.map(s => s.split("\t")(3)).flatMap(t => t.split(";"))
           .map(u => u.split(":")(1)).cache()
