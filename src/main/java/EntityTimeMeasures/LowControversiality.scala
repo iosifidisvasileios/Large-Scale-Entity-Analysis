@@ -65,7 +65,7 @@ object LowControversiality {
 
     val myListPerDayGran = aggregateNextDate(new DateTime(startDate).minusDays(1), new DateTime(endDate), granularity)
 
-    for (index <- 0 until myListPerDayGran.length - 1)
+    for (index <- myListPerDayGran.indices)
     {
       val startTime =  myListPerDayGran(index).plusDays(1).getMillis
       val endTime =  myListPerDayGran(index + 1).getMillis
