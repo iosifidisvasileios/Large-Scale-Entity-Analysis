@@ -50,7 +50,7 @@ object HighPopularity {
 
     val myListPerDayGran = aggregateNextDate(new DateTime(startDate).minusDays(1), new DateTime(endDate), granularity)
 
-    for (index <- myListPerDayGran.indices)
+    for (index <- 0 until myListPerDayGran.length - 1)
     {
       val startTime =  myListPerDayGran(index).plusDays(1).getMillis
       val endTime =  myListPerDayGran(index + 1).getMillis
@@ -73,14 +73,15 @@ object HighPopularity {
 
       val popularity = populT * populU
 
-      all_values += (sdfDay.format(new DateTime(myListPerDayGran(index)).plusDays(1)) + " - " + sdfDay.format(new DateTime(myListPerDayGran(index + 1))) -> popularity)
+//      string_of
+      all_values += ( sdfDay.format(new Date(startTime )) + " - " + sdfDay.format(new Date(endTime ))  -> popularity)
     }
 
     var export_topK = ""
 
     for (i <- 1 to topK) {
       val best = all_values.maxBy(_._2)
-      export_topK += best._1 + " : " + best._2
+      export_topK += best._1 + " : " + best._2 + "\n"
       all_values.remove(best._1)
     }
 
