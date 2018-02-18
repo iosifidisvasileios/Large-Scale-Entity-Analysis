@@ -8,6 +8,17 @@ Currently, the library supports the distributed computation of the following mea
 - **entity controversiality** (whether there is a consensus about the sentiment of the entity)
 - **entity-to-entity connectedness** (how connected - in terms of co-occurrences - is the entity to another entity)
 - **entity k-network** (top-k strongly connected entities)
+- **entity k-positive-network** (top-k positive connected entities)
+- **entity k-negative-network** (top-k negative connected entities)
+
+- **entity high attitude** (top-n periods of highest predominant sentiment for a specified interval)
+- **entity low attitude**  (top-n periods of lowest predominant sentiment for a specified interval)
+- **entity high popularity** (top-n periods of highest score of discussion for a specified interval)
+- **entity low popularity**  (top-n periods of lowest  score of discussion for a specified interval)
+- **entity high controversiality** (top-n periods of highest score of controversiality for a specified interval)
+- **entity low controversiality**  (top-n periods of lowest  score of controversiality for a specified interval)
+
+
 
 Dataset must be in the following tab-seperated ("\t") format (each line describes information about a short text, e.g., tweet):
 
