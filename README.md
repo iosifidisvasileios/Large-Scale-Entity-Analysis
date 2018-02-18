@@ -35,6 +35,26 @@ In order to run the code you must have installed Apache Spark Ecosystem.
 
 Datasets must be indexed monthly on your File System i.e 2010-01, 2010-02.
 
+Two packages have been created for the aforementioned scores. 
+
+**Single Entity Measures** which contains the methods:
+- **entity popularity**  
+- **entity attitude**  
+- **entity sentimentality**  
+- **entity controversiality**  
+- **entity-to-entity connectedness** 
+- **entity k-network** 
+- **entity k-positive-network** 
+- **entity k-negative-network**  
+
+**Entity Time Measures** which contains the methods:
+- **entity high attitude**  
+- **entity low attitude**   
+- **entity high popularity**  
+- **entity low popularity**   
+- **entity high controversiality** 
+- **entity low controversiality**   
+
 Programm has 3 options:
 
 1) First option will calculate the popularity, attitude, sentimentality and controversiality
