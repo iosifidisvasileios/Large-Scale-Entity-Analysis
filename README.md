@@ -55,7 +55,7 @@ Two packages have been created for the aforementioned scores.
 - **entity high controversiality** 
 - **entity low controversiality**   
 
-For **Single Entity Measures** there are two classes. **SingleEntityMeasures** and **ListEntityMeasures**.
+First package is **Single Entity Measures** which containes two classes. **SingleEntityMeasures** and **ListEntityMeasures**.
 
 **SingleEntityMeasures** class has these three options:
 
@@ -96,4 +96,32 @@ The arguments are listed below:
 
 ie.
 spark-submit --class SingleEntityMeasures.ListEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 entitiesfile.txt 0.001 10 TPDL_Dataset/
+
+
+The second package **Entity Time Measures** contains 6 classes:
+- HighAttitude
+- LowAttitude
+- HighPopularity
+- LowPopularity
+- HighControversiality
+- LowControversialty
+
+Classes HighAttitude, LowAttitude, HighPopularity, LowPopularity receive 5 arguments while HighControversiality and HighControversiality receive one more (which is the delta threshold). These classes aggregate the top n periods of a specified interval.
+
+The arguments for HighAttitude, LowAttitude, HighPopularity, LowPopularity are listed below:
+
+1) entity_id top_n date_range_1 date_range_2 granularity(in days!) directory_of_dataset 
+
+ie. 
+spark-submit --class EntityTimeMeasures.HighAttitude TPDLscala.jar Barack_Obama 30 2015-10-01 2015-11-04 TPDL_Dataset/
+
+This command will calculate the High Attidue scores of entity "Barack_Obama" from 2015-10-01 till 2015-11-04 by spliting this interval every 30 days and afterwards it will return the highest top_n values (including the time interval of these scores). 
+
+HighControversiality and HighControversiality take the same arguments but also they receive a delta threshold for controversiality. 
+
+2) entity_id top_n date_range_1 date_range_2 granularity(in days!) sentiment_delta_threshold_for_controversiality(double)  directory_of_dataset 
+
+ie. 
+spark-submit --class EntityTimeMeasures.HighAttitude TPDLscala.jar Barack_Obama 30 2015-10-01 2015-11-04 0.001 TPDL_Dataset/
+
 
