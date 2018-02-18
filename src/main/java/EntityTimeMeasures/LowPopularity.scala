@@ -3,7 +3,7 @@ package EntityTimeMeasures
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import MeasureAggregators.SingleEntityMeasures
+import SingleEntityMeasures.SingleEntityMeasures
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Period}
 

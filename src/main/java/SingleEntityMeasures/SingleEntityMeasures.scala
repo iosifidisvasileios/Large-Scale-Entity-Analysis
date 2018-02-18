@@ -1,11 +1,10 @@
-package MeasureAggregators
+package SingleEntityMeasures
 
 import java.text.SimpleDateFormat
 import java.util.Date
 
 import SpamDetection.ProcessingOfRow
 import breeze.linalg.{max, min}
-import breeze.numerics.abs
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 import org.joda.time.{DateTime, Period}
@@ -22,36 +21,10 @@ object SingleEntityMeasures {
   }
   def calculateCONe(e1Entities: RDD[String], e2Entities: RDD[String]) : Double = {
     val e1EntitiesCnt = e1Entities.distinct().count.toDouble
-    //    val e2EntitiesCnt = e2Entities.distinct().count.toDouble
     val e1ANDe2_Entities = e2Entities.distinct().intersection(e1Entities.distinct()).count.toDouble
     val CONe = e1ANDe2_Entities/(e1EntitiesCnt  - e1ANDe2_Entities)
     CONe
   }
-
-  /*
-  def flatten(ls: List[Any]): List[Any] = ls flatMap {
-    case i: List[_] => flatten(i)
-    case e => List(e)
-  }
-
-
- def calculateCONh(e1HashTags: RDD[String], e2HashTags: RDD[String]) : Double = {
-     val e1HashTagsCnt = e1HashTags.distinct().count.toDouble
-     //    val e2HashTagsCnt = e2HashTags.distinct().count.toDouble
-     val e1ANDe2_HashTags = e2HashTags.distinct().intersection(e1HashTags.distinct()).count.toDouble
-     val CONh = e1ANDe2_HashTags/(e1HashTagsCnt - e1ANDe2_HashTags)
-
-     return CONh
-   }
-  def calculateCONm(e1Mensions: RDD[String], e2Mensions: RDD[String]) : Double = {
-     val e1MensionsCnt = e1Mensions.distinct().count.toDouble
-     //    val e2MensionsCnt = e2Mensions.distinct().count.toDouble
-     val e1ANDe2_Mensions = e2Mensions.distinct().intersection(e1Mensions.distinct()).count.toDouble
-     val CONm = e1ANDe2_Mensions/(e1MensionsCnt - e1ANDe2_Mensions)
-
-     return CONm
-   }
-   */
 
   def controversialityForOne(entitySet: RDD[String], entityCount: Double, thresholdDelta : Double) : Double = {
     val posCnt = entitySet.filter { x =>
@@ -95,7 +68,6 @@ object SingleEntityMeasures {
   }
 
   def main(args: Array[String]) {
-//    val t0 = System.nanoTime()
 
     val processingOfRow: ProcessingOfRow = new ProcessingOfRow
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM")
@@ -117,8 +89,6 @@ object SingleEntityMeasures {
 
     var flagLoop = true
     while (flagLoop) {
-//      println("give starting date: \"year-month\". example: 2013-01-01")
-      //      val buffer = Console.readLine
       val buffer = args(0).toString
       if (buffer.split("-").length == 3) {
         startingYear = buffer.split("-")(0)
@@ -160,8 +130,6 @@ object SingleEntityMeasures {
     val startDateFull: Date = sdf2.parse(startingYear + "-" + startingMonth + "-" + startingDay)
     flagLoop = true
     while (flagLoop) {
-//      println("give ending date: \"year-month\". example: 2013-12-01")
-      //      val buffer = Console.readLine
       val buffer = args(1).toString
       if (buffer.split("-").length == 3) {
         endingYear = buffer.split("-")(0)
@@ -203,12 +171,9 @@ object SingleEntityMeasures {
     val myList = dateRange(new DateTime(startDate), new DateTime(endDate), new Period().withMonths(1)).toList.map(_.toDate).map(x => args(argsLen - 1) + sdf.format(x) ).distinct
     val listConcat = myList.mkString(",")
 
-//    println(listConcat)
     var bufferSelection =""
     flagLoop = true
     while (flagLoop) {
-//      println("Select 1 or 2 or 3\n1) Measures for an Entity\n2) Correlation Measures between 2 Entities\n3) Entity k-Network")
-      //      bufferSelection = Console.readLine
       bufferSelection = args(2).toString
       if (bufferSelection.forall(_.isDigit) && bufferSelection.equals("1") || bufferSelection.equals("2") || bufferSelection.equals("3") ) {
         flagLoop = false
@@ -220,24 +185,16 @@ object SingleEntityMeasures {
 
     bufferSelection match {
       case "1" =>
-//        println("Give entity for search (exactly as it is written in Wikipedia):")
-        //        val e1 = Console.readLine
         val e1 = args(3).toString
-//        println(e1)
-
         val delta = args(4).toDouble
-//        val percentageForControversiality = args(5).toDouble
 
-//        val indexedRddTemp = sc.textFile(listConcat)
         val indexedRdd =  sc.textFile(listConcat).filter{x=>
-           val temp: Date = sdf3.parse(x.split("\t")(2))
+          val temp: Date = sdf3.parse(x.split("\t")(2))
           temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
         }.cache
 
         val totalTweets = indexedRdd.count().toDouble
         val totalUserCnt = indexedRdd.map(_.split("\t")(1)).distinct().count().toDouble
-//        val entitySet = indexedRdd.filter(_.split("\t")(3).contains(e1))
-//        println("totalTweets " +totalTweets )
 
         val entitySet = indexedRdd.filter{ line=>
           var flag = false
@@ -254,10 +211,7 @@ object SingleEntityMeasures {
           flag
         }.cache()
 
-
-
         val entityCnt = entitySet.count().toDouble
-//        println("entityCnt " + entityCnt )
         val entityUserCnt = entitySet.map(_.split("\t")(1)).distinct().count().toDouble
 
         val populT = entityCnt/totalTweets
@@ -284,20 +238,11 @@ object SingleEntityMeasures {
         )
 
         sc.parallelize(myList).repartition(1).saveAsTextFile("popularity_" + e1 + "_" + args(0) + "_" + args(1))
-
-//        println("Elapsed time: " + (System.nanoTime() - t0) + "ns")
-
         sys.exit(0)
 
       case "2" =>
-//        println("Give first  entity for search (exactly as it is written in Wikipedia):")
         val e1 = args(3).toString
-//        println(e1)
-        //        val e1 = Console.readLine
-//        println("Give second entity for search (exactly as it is written in Wikipedia):")
         val e2 = args(4).toString
-//        println(e2)
-        //        val e2 = Console.readLine
 
         val indexedRddTemp = sc.textFile(listConcat)
         val indexedRdd = indexedRddTemp.filter{x=>
@@ -310,43 +255,25 @@ object SingleEntityMeasures {
 
         val entitySet = entitySetE1.map(s => s.split("\t")(3)).flatMap(t => t.split(";")).map(u => u.split(":")(1)).cache
         val entityMap= entitySet.countByValue()
-        //        sc.parallelize(entityMap.toSeq).saveAsTextFile("myEntities")
         var CONt = 0.0
         if(entityMap.contains(e2)) {
           CONt = calculateCONtNew(entitySet.count().toDouble, entityMap(e2).toDouble)
         }
 
-//        println("Metric CONt : " + CONt)
 
         val CONe = calculateCONe(entitySetE1.map(s => s.split("\t")(3)).flatMap(t => t.split(";")).map(u => u.split(":")(1)).distinct(),
           entitySetE2.map(s => s.split("\t")(3)).flatMap(t => t.split(";")).map(u => u.split(":")(1)).distinct())
-//        println("Metric CONe : " + CONe)
 
-        //        val CONh = calculateCONh(entitySetE1.map(s => s.split("\t")(6)).flatMap(t => t.split(" ")).map(u => u.toLowerCase).distinct(),
-        //          entitySetE2.map(s => s.split("\t")(6)).flatMap(t => t.split(" ")).map(u => u.toLowerCase).distinct())
-        //        println("Metric CONh : " + CONh)
-        //
-        //        val CONm = calculateCONm(entitySetE1.map(s => s.split("\t")(5)).flatMap(t => t.split(" ")).map(u => u.toLowerCase).distinct(),
-        //          entitySetE2.map(s => s.split("\t")(5)).flatMap(t => t.split(" ")).map(u => u.toLowerCase).distinct())
-        //        println("Metric CONm : " + CONm)
-
-        //        val CONtotal = (CONe + CONh +CONm + CONt) / 4
         val CONtotal = (CONe  + CONt) / 2
-        //        println("TOTAL CONNECTION SCORE: " + CONtotal)
 
         val myList = List(
           ("CONt", CONt ),
           ("CONe",CONe ),
-          /*
-          ("CONh", CONh),
-          ("CONm", CONm),
-          */
           ("CONtotal", CONtotal))
         sc.parallelize(myList).repartition(1).saveAsTextFile("K-measures_" + e1 + "_" + e2 + "_" + args(0) + "_" + args(1))
         sys.exit(0)
 
       case "3" =>
-//        println("Give entity for search (exactly as it is written in Wikipedia):")
         val e1 = args(3).toString
         val delta = args(4).toDouble
         val topK = args(5).toInt
@@ -357,9 +284,6 @@ object SingleEntityMeasures {
           temp.getTime >= startDateFull.getTime && temp.getTime <= endDateFull.getTime
         }.cache
 
-//        val tweetSet = indexedRdd.filter(_.split("\t")(3).contains(e1)).cache
-
-        ////
         val tweetSet = indexedRdd.filter{ line=>
           var flag = false
           val entity = line.split("\t")(3)
@@ -374,8 +298,6 @@ object SingleEntityMeasures {
           }
           flag
         }.cache()
-        ////
-
 
         val entitySet = tweetSet.map(s => s.split("\t")(3)).flatMap(t => t.split(";"))
           .map(u => u.split(":")(1)).cache()
@@ -396,7 +318,7 @@ object SingleEntityMeasures {
         sc.parallelize(E._2).repartition(1).saveAsTextFile("EminusNetwork_" + e1 + "_" + args(0) + "_" + args(1))
 
         sys.exit(0)
-      }
+    }
   }
 }
 

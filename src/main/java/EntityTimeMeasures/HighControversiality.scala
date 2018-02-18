@@ -3,7 +3,7 @@ package EntityTimeMeasures
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import MeasureAggregators.SingleEntityMeasures
+import SingleEntityMeasures.SingleEntityMeasures
 import breeze.linalg.{max, min}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}

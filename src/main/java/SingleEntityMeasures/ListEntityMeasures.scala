@@ -1,4 +1,4 @@
-package MeasureAggregators
+package SingleEntityMeasures
 
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,19 +15,18 @@ import scala.util.Try
 
 object ListEntityMeasures {
 
-
   def dateRange(from: DateTime, to: DateTime, step: Period): Iterator[DateTime]      =Iterator.iterate(from)(_.plus(step)).takeWhile(!_.isAfter(to))
 
   def calculateCONtNew(e1: Double, e2: Double) : Double = {
     Try(e2/e1).getOrElse(0.0)
   }
+
   def calculateCONe(e1Entities: RDD[String], e2Entities: RDD[String]) : Double = {
     val e1EntitiesCnt = e1Entities.distinct().count.toDouble
     val e1ANDe2_Entities = e2Entities.distinct().intersection(e1Entities.distinct()).count.toDouble
     val CONe = e1ANDe2_Entities/(e1EntitiesCnt  - e1ANDe2_Entities)
     CONe
   }
-
 
   def controversialityForOne(entitySet: RDD[String], entityCount: Double, thresholdDelta : Double) : Double = {
     val posCnt = entitySet.filter { x =>
@@ -37,7 +36,6 @@ object ListEntityMeasures {
     val negCnt = entitySet.filter { x =>
       x.split("\t")(4).split(" ")(0).toInt + x.split("\t")(4).split(" ")(1).toInt <= -thresholdDelta
     }.count().toDouble
-
     (min(posCnt, negCnt) / max(posCnt, negCnt)) * ((posCnt + negCnt)/entityCount)
   }
 
@@ -71,7 +69,6 @@ object ListEntityMeasures {
   }
 
   def main(args: Array[String]) {
-    //    val t0 = System.nanoTime()
 
     val processingOfRow: ProcessingOfRow = new ProcessingOfRow
     val sdf: SimpleDateFormat = new SimpleDateFormat("yyyy-MM")
@@ -96,8 +93,6 @@ object ListEntityMeasures {
 
     var flagLoop = true
     while (flagLoop) {
-      //      println("give starting date: \"year-month\". example: 2013-01-01")
-      //      val buffer = Console.readLine
       val buffer = args(0).toString
       if (buffer.split("-").length == 3) {
         startingYear = buffer.split("-")(0)
@@ -175,7 +170,6 @@ object ListEntityMeasures {
     val endDateFull: Date = sdf2.parse(endingYear + "-" + endingMonth + "-" + endingDay)
 
     val myList = dateRange(new DateTime(startDate), new DateTime(endDate), new Period().withMonths(1)).toList.map(_.toDate).map(x => sdf.format(x) ).distinct
-    //    val listConcat = myList.mkString(",")
 
     val listSource =  Source.fromFile(args(2))
     for(line <- listSource.getLines() ) {
@@ -216,7 +210,6 @@ object ListEntityMeasures {
       }.cache()
 
       for(item <- entitiesList) {
-        //      val entitySet = totalEntitySet.filter(_.split("\t")(3).contains(item)).cache()
 
         val entitySet = indexedRdd.filter { line =>
           var flag = false
@@ -237,7 +230,6 @@ object ListEntityMeasures {
         println(item + " entityCnt " + entityCnt)
 
         val entityUserCnt = entitySet.map(_.split("\t")(1)).distinct().count().toDouble
-
 
         val populT = entityCnt / totalTweets
         val populU = entityUserCnt / totalUserCnt
@@ -268,7 +260,6 @@ object ListEntityMeasures {
           .map(u => u.split(":")(1)).cache()
           .filter(x => !processingOfRow.isStopword(x) && !x.equals(item))
 
-        ////////
         val e1Cnt = entitySetForTopK.count().toDouble
         val entitySetCnt = sc.parallelize(entitySetForTopK.countByValue().toSeq)
           .sortBy(k => k._2, ascending = false)
@@ -285,7 +276,6 @@ object ListEntityMeasures {
 
       }
     }
-    //    println("Elapsed time: " + (System.nanoTime() - t0) + "ns")
 
   }
 
