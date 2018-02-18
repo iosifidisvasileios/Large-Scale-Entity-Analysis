@@ -55,25 +55,45 @@ Two packages have been created for the aforementioned scores.
 - **entity high controversiality** 
 - **entity low controversiality**   
 
-Programm has 3 options:
+For **Single Entity Measures** there are two classes. **SingleEntityMeasures** and **ListEntityMeasures**.
+
+**SingleEntityMeasures** class has these three options:
 
 1) First option will calculate the popularity, attitude, sentimentality and controversiality
 2) Second option will calculate the connectedness between 2 entities
-3) Third otpion will calculate the Top-K Network.
+3) Third otpion will calculate the Top-K, Top-K Positive and Top-K Negative Networks.
 
 The arguments for each option are listed below:
 
 1) date_range_1 date_range_2 1 entity_id sentiment_delta_threshold_for_controversiality(double) directory_of_dataset
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 1 Alexis_Tsipras 2.0 TPDL_Dataset/
+spark-submit --class SingleEntityMeasures.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 1 Alexis_Tsipras 2.0 TPDL_Dataset/
 
 2) date_range_1 date_range_2 2 main_entity_id other_entity_id directory_of_dataset
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 2 Alexis_Tsipras Greek_withdrawal_from_the_eurozone TPDL_Dataset/
+spark-submit --class SingleEntityMeasures.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 2 Alexis_Tsipras Greek_withdrawal_from_the_eurozone TPDL_Dataset/
 
-3) date_range_1 date_range_2 3 entity_id delta top_k directory_of_dataset
+3) date_range_1 date_range_2 3 entity_id delta sentiment_delta_threshold_for_controversiality(double) top_k directory_of_dataset
 
 ie.
-spark-submit --class MeasureAggregators.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 3 Barack_Obama 0.001 10 TPDL_Dataset/
+spark-submit --class SingleEntityMeasures.SingleEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 3 Barack_Obama 0.001 10 TPDL_Dataset/
+
+**ListEntityMeasures**
+This class produces the below scores for a **list of entities** instead of a single entity like in **SingleEntityMeasures**.
+- popularity score
+- attitude score
+- sentimentality score
+- controversiality score
+- Top-K Network
+- Top-K Positive Network
+- Top-K Negative Network
+
+The arguments are listed below:
+
+1) date_range_1 date_range_2 "text file which contains list of entities ('\n' separated) " sentiment_delta_threshold_for_controversiality(double) top_k directory_of_dataset
+
+ie.
+spark-submit --class SingleEntityMeasures.ListEntityMeasures TPDLscala.jar 2015-10-01 2015-11-04 entitiesfile.txt 0.001 10 TPDL_Dataset/
+
